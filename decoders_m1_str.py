@@ -1,5 +1,8 @@
 
 import numpy as np
+import warnings
+from sklearn.model_selection import RepeatedKFold
+from sklearn.linear_model import RidgeCV
 
 def prepro_decoder_pcs_reaching(dataframe, pc1, pc2, var_to_decode, number_pcs):
     #This functions uses the original dataframe in the pyaldata format
@@ -352,7 +355,7 @@ def prepro_decoder_communication_grasping(dataframe, pc1, pc2, var_to_decode, nu
 
 
 
-def add_history(bins_before,pc1,pc2,var_to_decode):
+def add_history(bins_before,pc1,pc2,var_to_decode, coordinate):
     #Adds the bins of history (bins_before) that we want to add to our different variables
     X=pc1
     neural_pca_ampl_1= np.zeros((pc1.shape[0],pc1.shape[1]*(bins_before +1)))
@@ -396,7 +399,7 @@ def add_history(bins_before,pc1,pc2,var_to_decode):
     neural_pca_ampl_2=np.delete(neural_pca_ampl_2, np.array(list(range(0,bins_before))),0)   
 
     #########################################
-    X=var_to_decode[:,0].reshape(var_to_decode.shape[0],1)
+    X=var_to_decode[:,coordinate].reshape(var_to_decode.shape[0],1)
     var_ampl= np.zeros((var_to_decode.shape[0],X.shape[1]*(bins_before +1)))
 
     for t in range(bins_before+1, len(var_to_decode)):  
@@ -420,3 +423,17 @@ def add_history(bins_before,pc1,pc2,var_to_decode):
 
 
 
+def RidgeCV_decoder(X,y):
+    
+    cv = RepeatedKFold(n_splits=10, n_repeats=5, random_state=1)
+
+    model = RidgeCV(alphas=np.arange(0, 1, 0.99), cv=cv,normalize=True)
+    model.fit(X, y)
+    r2_value=model.score(X,y)
+    #print(f'score: {r2_value}')
+    #print(model.alpha_)
+
+    pr=model.predict(X)
+    warnings.filterwarnings("ignore")
+
+    return r2_value,pr 
