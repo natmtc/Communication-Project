@@ -90,7 +90,7 @@ def prepro(df, dataset):
             # due to absence of this field in no-laser sessions
             pass
 
-    if dataset<8:
+    if dataset<7:
         df_ = pyal.combine_time_bins(df_, 4) #int(BIN_SIZE/.01))
     else:
         df_ = pyal.combine_time_bins(df_, 2) #int(BIN_SIZE/.01))
