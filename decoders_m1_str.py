@@ -309,7 +309,7 @@ def prepro_decoder_communication_grasping(dataframe, pc1, pc2, var_to_decode, nu
         pos_grasp=np.zeros((bins_total_grasp,3))
         for i in range(dataframe.shape[0]):    
         #     if i!=21: #only for 38_052319
-                pos_cut= dataframe['jTrjB'][i][mov_onset+steps[i]+reach_values[i]:mov_onset+steps[i]+reach_values[i]+grasp_values[i],:]
+                pos_cut= dataframe['jTrjB'][i][mov_onset+reach_values[i]:mov_onset+reach_values[i]+grasp_values[i],:]
                 if i==0:
                     pos_grasp[:grasp_values[i],:]=pos_cut
                 else:
