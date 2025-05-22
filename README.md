@@ -1,5 +1,7 @@
-# Decoders for Inter-region communication between motor cortex and striatum
+# Across-area communication between M1 and STR
 
-Inter-region communication project mainly focused on the communication between motor cortex and striatum (also anterior cingulate cortex).
+Functions to study communication between motor cortex and striatum (also anterior cingulate cortex).
 
 This repository includes preprocessing tools, decoding tools and algorithms for analising communication.
+
+
